@@ -11,15 +11,18 @@
            DISPLAY "NO ERROR CHECKING".
            DISPLAY "Text: " WS-STRING.
            DISPLAY "Hash: " WS-HASH.
+
+           DISPLAY "====================".
+
            CALL "sha256_string_error" USING BY REFERENCE WS-STRING
                                       BY REFERENCE WS-HASH
                                       RETURNING WS-RETURN-CODE.
 
-           DISPLAY "====================".
            DISPLAY "WITH ERROR CHECKING".
            IF WS-RETURN-CODE NOT = 0 THEN
                DISPLAY "An error occurred while calculating the hash."
            ELSE
                DISPLAY "Text: " WS-STRING.
                DISPLAY "Hash: " WS-HASH.
+
            STOP RUN.
