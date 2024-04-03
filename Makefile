@@ -1,5 +1,5 @@
 # Nombre del ejecutable
-TARGET = hello
+TARGET = secret
 
 # Archivo principal COBOL
 MAIN = main.cbl
