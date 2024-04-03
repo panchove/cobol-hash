@@ -3,7 +3,9 @@
 #include <openssl/sha.h>
 #include <openssl/evp.h>
 
-// 
+// Convert the binary representation of the SHA256 hash into a human-readable string format. 
+// It does this by iterating over each byte of the hash and converting it into a two-character hexadecimal 
+// representation using the snprintf function.
 void sha256_hash_string (unsigned char hash[SHA256_DIGEST_LENGTH], char outputBuffer[65])
 {
     for(int i = 0; i < SHA256_DIGEST_LENGTH; i++)
