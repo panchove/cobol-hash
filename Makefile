@@ -37,4 +37,4 @@ run: $(TARGET)
 
 # Regla para limpiar los archivos generados
 clean:
-	rm -f $(TARGET) $(OBJS) $(OBJC)
+	rm -f $(TARGET) $(OBJS) $(OBJC) main.o

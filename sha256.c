@@ -1,19 +1,17 @@
 #include <stdio.h>
 #include <string.h>
 #include <openssl/sha.h>
+#include <openssl/evp.h>
 
+// 
 void sha256_hash_string (unsigned char hash[SHA256_DIGEST_LENGTH], char outputBuffer[65])
 {
-    int i = 0;
-
-    for(i = 0; i < SHA256_DIGEST_LENGTH; i++)
+    for(int i = 0; i < SHA256_DIGEST_LENGTH; i++)
     {
-        sprintf(outputBuffer + (i * 2), "%02x", hash[i]);
+        snprintf(outputBuffer + (i * 2), 3, "%02x", hash[i]);
     }
-
-    outputBuffer[64] = 0;
 }
-
+// Function to compute the SHA-256 hash of a string
 void sha256_string(char *string, char outputBuffer[65])
 {
     unsigned char hash[SHA256_DIGEST_LENGTH];
@@ -24,4 +22,31 @@ void sha256_string(char *string, char outputBuffer[65])
     SHA256_Final(hash, &sha256);
 
     sha256_hash_string(hash, outputBuffer);
+}
+
+// Function to compute the SHA-256 hash of a string and return an error code
+int sha256_string_error(char *string, char outputBuffer[65])
+{
+    EVP_MD_CTX *mdctx;
+    unsigned char hash[EVP_MAX_MD_SIZE];
+    unsigned int lengthOfHash = 0;
+
+    if((mdctx = EVP_MD_CTX_new()) == NULL)
+        return 1;
+
+    if(1 != EVP_DigestInit_ex(mdctx, EVP_sha256(), NULL))
+        return 1;
+
+    if(1 != EVP_DigestUpdate(mdctx, string, strlen(string)))
+        return 1;
+
+    if(1 != EVP_DigestFinal_ex(mdctx, hash, &lengthOfHash))
+        return 1;
+
+    EVP_MD_CTX_free(mdctx);
+
+    sha256_hash_string(hash, outputBuffer);
+
+    return 0;
+
 }
